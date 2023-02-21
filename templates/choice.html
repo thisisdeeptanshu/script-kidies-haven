@@ -1,0 +1,139 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+    .container {
+        color: #FE8F6B;
+    }
+    h1, h2 {
+        font-size: 3rem;
+        transition: 0.3s;
+        margin-bottom: 0;
+    }
+    h2 {
+        margin-top: 0;
+        font-size: 2rem;
+    }
+    form {
+        margin: 0;
+        padding: 0;
+    }
+    .selection, .selected {
+        width: 75px;
+        height: 75px;
+        background-color: #1a1a1a;
+        margin: 25px;
+        border-radius: 5px;
+        border: 1px solid #F7747B;
+        font-size: 40px;
+        color: #F7747B;
+        transition: 0.3s;
+    }
+    .selection:hover {
+        color: #1a1a1a;
+        background-color: #FE8F6B;
+        border-color: #FE8F6B;
+    }
+    .selected {
+        background-color: #F7747B;
+        color: #1a1a1a;
+    }
+    .selected:hover {
+        background-color: #1a1a1a;
+        color: #FE8F6B;
+        border-color: #FE8F6B;
+    }
+    input[type=text] {
+        all: unset;
+        text-align: center;
+        cursor: default;
+    }
+    .single-line-container {
+        display: flex;
+        justify-content: center;
+    }
+    .single-line {
+        text-align: center;
+        width: fit-content;
+    }
+    hr {
+        border: 1px solid #363636;
+        width: 500px;
+    }
+    .code {
+        background-color: #333333;
+        border-radius: 5px;
+        color: white;
+        text-align: center;
+    }
+    .info {
+        font-size: 1.5rem;
+        display: inline;
+        color: #1a1a1a;
+        background-color: rgb(50, 50, 50);
+        padding: 0px 5px;
+        padding-bottom: 2px;
+        margin: 2px;
+        border-radius: 5px;
+    }
+    .os { background-color: #F7747B; }
+    .shell { background-color: #FE8F6B; }
+</style>
+<div class="nav">
+    <h1 class="underline"><a href="/">Home</a></h1>
+    <h1 class="underline"><a href="/create">Create</a></h1>
+    {% if loggedIn %}
+        <h1 class="underline"><a href="/profile">Profile</a></h1>
+    {% else %}
+        <h1 class="underline"><a href="/login">Login</a></h1>
+    {% endif %}
+</div>
+<form action="#" method="POST">
+    <div class="container">
+        <div class="single-line-container">
+            <div class="single-line">
+                <h1>{{ data["name"] }}</h1><h2>by {{ data["by"] }}</h2>
+            </div>
+            <div class="single-line">
+                {% if loggedIn %}
+                    {% if contains %}
+                        <h1><input type="submit" class="selected" value="★"></h1>
+                    {% else %}
+                        <h1><input type="submit" class="selection" value="★"></h1>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div><hr>
+        {% for i in data["obj"] %}
+            <h1 class="code">{{i}}</h1>
+            <br>
+            {% for j in data["obj"][i]["os"] %}
+                <h1 class="info os">{{j}}</h1>
+            {% endfor %}
+            {% for j in data["obj"][i]["shells"] %}
+                <h1 class="info shell">{{j}}</h1>
+            {% endfor %}
+        {% endfor %}
+        <br><br>
+        <h2 style="text-align: right;">{{stars}} Star{{s}}</h2>
+    </div>
+</form>
+<script>
+    function select(e) {
+        if (e.getAttribute("class") == "center selection") {
+            Array.from(document.getElementsByClassName("center selected")).forEach((e2) => {
+                e2.setAttribute("class", "center selection");
+                e2.firstChild.setAttribute("name", "");
+            })
+            e.setAttribute("class", "center selected");
+            e.firstChild.setAttribute("name", "selected");
+        } else {
+            e.setAttribute("class", "center selection");
+            e.firstChild.setAttribute("name", "");
+        }
+    }
+</script>
+<script>
+    // https://stackoverflow.com/questions/3759981/get-ip-address-of-visitors-using-flask-for-python
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>

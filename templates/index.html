@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+    h1, h2 {
+        font-size: 3rem;
+        transition: 0.3s;
+        margin-bottom: 0;
+    }
+    h2 {
+        margin-top: 0;
+        font-size: 2rem;
+    }
+    .hover {
+        color: #FE8F6B;
+        width: fit-content;
+    }
+    .hover:hover {
+        color: #F7747B;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        text-align: center;
+        place-items: center;
+    }
+</style>
+<div class="nav">
+    <h1 class="underline"><a href="/">Home</a></h1>
+    <h1 class="underline"><a href="/create">Create</a></h1>
+    {% if loggedIn %}
+        <h1 class="underline"><a href="/profile">Profile</a></h1>
+    {% else %}
+        <h1 class="underline"><a href="/login">Login</a></h1>
+    {% endif %}
+</div>
+<div class="container">
+    {% for i in all %}
+        <div class="hover"><a href="/choice/{{ i[0] }}/"><h1>{{ i[1]["name"] }}</h1><h2>by {{ i[1]["by"] }}</h2></a></div>
+    {% endfor %}
+</div>

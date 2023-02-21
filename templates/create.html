@@ -1,0 +1,109 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+    .container {
+        border: 1px solid #F7747B;
+        color: #FE8F6B;
+        padding: 80px 30px;
+        padding-bottom: 10px;
+    }
+    h1 {
+        font-size: 3rem;
+        text-align: center;
+        color: #F7747B;
+        transition: 0.3s;
+    }
+    h1:hover {
+        color: #FE8F6B;
+    }
+    input[type=submit] {
+        all: unset;
+        cursor: pointer;
+    }
+    form {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<div class="nav">
+    <h1 class="underline"><a href="/">Home</a></h1>
+    <h1 class="underline"><a href="/create">Create</a></h1>
+    {% if loggedIn %}
+        <h1 class="underline"><a href="/profile">Profile</a></h1>
+    {% else %}
+        <h1 class="underline"><a href="/login">Login</a></h1>
+    {% endif %}
+</div>
+<form action="#" method="POST">
+    <div class="center">
+        <div class="container">
+            <input type="text" placeholder="Name" name="name"><br><br>
+            <input type="number" value="1" id="number" onchange="add()"><br>
+            <div id="container">
+            </div>
+            <h1 style="text-decoration: underline;margin-top: 200px;"><input type="submit" value="Create"></h1>
+        </div>
+    </div>
+</form>
+<script>
+    let original;
+    const options = ["Windows 10 & 11", "MacOS", "Debian-based", "Arch-based"];
+    const options1 = ["Powershell", "Bash", "Z Shell"];
+    function add() {
+        let number = document.getElementById("number").value;
+        if (number <= 0) {
+            document.getElementById("number").value = original;
+            return;
+        }
+        original = number;
+        let count = document.getElementsByClassName("text-input").length;
+        if (count < number) {
+            while (count < number) {
+                let cc = document.createElement("div");
+                cc.setAttribute("class", "cc");
+                document.getElementById("container").append(cc);
+                
+                let text = document.createElement("input");
+                text.setAttribute("type", "text");
+                text.setAttribute("class", "text-input");
+                text.setAttribute("name", count + "-command");
+                cc.appendChild(text);
+
+                let brk = document.createElement("br");
+                brk.setAttribute("class", "break");
+                cc.appendChild(brk);
+                
+                let cc1 = document.createElement("div");
+                cc1.setAttribute("class", "cc1");
+                cc.append(cc1);
+                let cc2 = document.createElement("div");
+                cc2.setAttribute("class", "cc2");
+                cc.append(cc2);
+
+                for (let i in options) {
+                    let string = `
+                    <div class="checkbox-wrapper-13 checkbox${i}">
+                      <input id="c1-13" type="checkbox" name='${i}-${count}-oscbox'>
+                      <label for="c1-13">${options[i]}</label>
+                    </div>`;
+                    cc1.insertAdjacentHTML("beforeend", string);
+                }
+                for (let i in options1) {
+                    let string = `
+                    <div class="checkbox-wrapper-13 checkbox1${i}">
+                      <input id="c1-13" type="checkbox" name='${i}-${count}-shcbox'>
+                      <label for="c1-13">${options1[i]}</label>
+                    </div>`;
+                    cc2.insertAdjacentHTML("beforeend", string);
+                }
+                
+                count++;
+            }
+        } else {
+            while (number < count) {
+                document.getElementsByClassName("cc")[count - 1].remove();
+                count--;
+            }
+        }
+    }
+    add();
+</script>
