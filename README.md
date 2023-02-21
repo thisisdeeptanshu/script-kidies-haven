@@ -1,4 +1,2 @@
 # Requirements
-Flask
-firebase_admin
-Pyrebase4
+Flask, firebase_admin & Pyrebase4
